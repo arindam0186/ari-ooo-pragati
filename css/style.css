@@ -121,9 +121,8 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
   align-items:center;
   justify-content:center;
   gap: .35rem;
-  width: 108px; height: 108px;
+  width: 136px; height: 136px;
   border-radius: 50%;
-  border: 1px solid var(--gold-soft);
   position: relative;
   font-family: var(--font-display);
   color: var(--ink);
@@ -133,7 +132,6 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
   content:'';
   position:absolute; inset: 7px;
   border-radius: 50%;
-  border: 1px solid rgba(176,141,43,.35);
 }
 .mono-letter{ font-size: 1.9rem; font-weight: 500; }
 .mono-amp{ font-family: var(--font-script); font-size: 1.4rem; color: var(--gold); }
