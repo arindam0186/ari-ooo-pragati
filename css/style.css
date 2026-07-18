@@ -67,6 +67,53 @@ button{ font-family: inherit; }
   margin-bottom: 1.4rem;
 }
 
+.std{
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: .22em;
+  color: var(--gold);
+  margin-bottom: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .6em;
+  position: relative;
+}
+.std-bracket{
+  display: inline-block;
+  width: 1px;
+  height: .85em;
+  background: var(--gold-soft);
+  transform: scaleY(0);
+  transform-origin: center;
+  animation: bracket-open .6s var(--ease) forwards;
+  animation-delay: .1s;
+}
+.std-word{ display: inline-flex; }
+.std-letter{
+  display: inline-block;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(8px);
+  animation: letter-ink-in .7s var(--ease) forwards;
+}
+.std::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 0;
+  height: 1px;
+  background: var(--gold-soft);
+  opacity: .8;
+  transform: translateX(-50%);
+  animation: underline-draw .8s ease-out forwards;
+  animation-delay: 1.75s;
+}
+@keyframes bracket-open{ to{ transform: scaleY(1); } }
+@keyframes letter-ink-in{ to{ opacity: 1; filter: blur(0); transform: translateY(0); } }
+@keyframes underline-draw{ to{ width: 100%; } }
+
+
 /* ============================================================
    Ambient petals — continuous, behind all content
    ============================================================ */
@@ -136,13 +183,20 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
 }
 .mono-letter{ font-size: 1.9rem; font-weight: 500; }
 .mono-amp{ font-family: var(--font-script); font-size: 1.4rem; color: var(--gold); }
+.monogram-img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  padding: 6px;
+}
 
-.monogram--closing{
+.monogram--tap{
   cursor: pointer;
   transition: transform .4s var(--ease);
 }
-.monogram--closing:hover, .monogram--closing:focus-visible{ transform: scale(1.06); }
-.monogram--closing.zapped{ animation: mono-bump .5s var(--ease); }
+.monogram--tap:hover, .monogram--tap:focus-visible{ transform: scale(1.06); }
+.monogram--tap.zapped{ animation: mono-bump .5s var(--ease); }
 @keyframes mono-bump{
   0%{ transform: scale(1); }
   40%{ transform: scale(1.18); }
@@ -160,7 +214,21 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
   align-items:center;
   gap: .08em;
 }
-.hero-amp{ font-family: var(--font-script); font-size: .55em; color: var(--gold); margin: .05em 0; }
+.hero-amp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: .85em;
+  margin: .1em 0;
+}
+.amp-glyph{
+  font-family: var(--font-script);
+  font-size: .68em;
+  line-height: 1;
+  color: var(--gold);
+  display: inline-block;
+  transform: translateY(0.05em); /* nudge for this typeface's optical center; adjust if needed */
+}
 .hero-sub{
   font-family: var(--font-display);
   font-style: italic;

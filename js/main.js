@@ -4,6 +4,22 @@
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
+     "Save the Date" — letter-by-letter ink reveal
+     ============================================================ */
+  var stdWord = document.getElementById('std-word');
+  if (stdWord) {
+    var text = stdWord.textContent;
+    stdWord.textContent = '';
+    text.split('').forEach(function (ch, i) {
+      var span = document.createElement('span');
+      span.className = 'std-letter';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      span.style.animationDelay = (0.35 + i * 0.045) + 's';
+      stdWord.appendChild(span);
+    });
+  }
+
+  /* ============================================================
      Robust viewport height fix (older iOS/Android address-bar quirks)
      ============================================================ */
   function setVH() {
@@ -82,7 +98,7 @@
     for (var i = 0; i < count; i++) {
       var h = document.createElement('span');
       h.className = 'heart';
-      h.textContent = '💛';
+      h.textContent = '❤️';
       h.style.left = x + 'px';
       h.style.top = y + 'px';
       h.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
@@ -95,25 +111,39 @@
   }
 
   /* ============================================================
-     Couple illustration — tap for hearts + gentle tilt parallax
+     Tap-for-hearts — shared across both monograms + couple photo
      ============================================================ */
-  var coupleWrap = document.getElementById('couple-wrap');
-  var coupleTilt = document.getElementById('couple-tilt');
-  var couplePhoto = document.getElementById('couple-photo');
-
-  function tapCouple(e) {
-    coupleWrap.classList.add('tapped');
-    setTimeout(function () { coupleWrap.classList.remove('tapped'); }, 220);
-    var rect = coupleWrap.getBoundingClientRect();
-    spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
+  function bindTapHearts(el, bumpEl) {
+    if (!el) return;
+    function trigger() {
+      if (bumpEl) {
+        bumpEl.classList.add('zapped');
+        setTimeout(function () { bumpEl.classList.remove('zapped'); }, 500);
+      }
+      var rect = el.getBoundingClientRect();
+      spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 8);
+    }
+    el.addEventListener('click', trigger);
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+    });
   }
-  coupleWrap.addEventListener('click', tapCouple);
-  coupleWrap.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tapCouple(e); }
-  });
+
+  bindTapHearts(document.getElementById('hero-monogram'), document.getElementById('hero-monogram'));
+  bindTapHearts(document.getElementById('closing-monogram'), document.getElementById('closing-monogram'));
+
+  var coupleWrap = document.getElementById('couple-wrap');
+  bindTapHearts(coupleWrap, null);
+  if (coupleWrap) {
+    coupleWrap.addEventListener('click', function () {
+      coupleWrap.classList.add('tapped');
+      setTimeout(function () { coupleWrap.classList.remove('tapped'); }, 220);
+    });
+  }
 
   // Subtle parallax: device orientation on mobile, mouse move on desktop
-  if (!prefersReducedMotion) {
+  var coupleTilt = document.getElementById('couple-tilt');
+  if (!prefersReducedMotion && coupleTilt) {
     if (window.DeviceOrientationEvent && /Mobi|Android/i.test(navigator.userAgent)) {
       window.addEventListener('deviceorientation', function (e) {
         if (e.gamma == null) return;
@@ -211,29 +241,5 @@
       dots.forEach(function (d, i) { d.classList.toggle('active', i === index); });
     }, { passive: true });
   }
-
-  /* ============================================================
-     Closing monogram easter egg — tap 3x for a burst
-     ============================================================ */
-  var closingMono = document.getElementById('closing-monogram');
-  var tapCount = 0;
-  var tapTimer = null;
-
-  function handleMonoTap(e) {
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(function () { tapCount = 0; }, 1200);
-    if (tapCount >= 3) {
-      tapCount = 0;
-      closingMono.classList.add('zapped');
-      setTimeout(function () { closingMono.classList.remove('zapped'); }, 500);
-      var rect = closingMono.getBoundingClientRect();
-      spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 14);
-    }
-  }
-  closingMono.addEventListener('click', handleMonoTap);
-  closingMono.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMonoTap(e); }
-  });
 
 })();
