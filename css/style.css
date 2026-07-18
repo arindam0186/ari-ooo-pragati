@@ -3,7 +3,7 @@
    ============================================================ */
 
 :root{
-  --ivory: #FBF4E8;
+  --ivory: #fbefdc;
   --ivory-deep: #F3E9DA;
   --ink: #3A2E26;
   --gold: #B08D2B;
@@ -253,6 +253,71 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
 /* ============================================================
    Save the date — flip calendar
    ============================================================ */
+
+.save-date-wrapper{
+    max-width:700px;
+    margin:auto;
+
+    padding:42px 32px;
+
+    border-radius:28px;
+
+    background:rgba(251, 239, 220);
+    backdrop-filter:blur(18px);
+
+    display:flex;
+    flex-direction:column;
+    gap:34px;
+}
+
+.divider{
+    width:70px;
+    height:1px;
+    background:rgba(0,0,0,.12);
+    margin:auto;
+}
+
+.save-title{
+
+    font-size:2rem;
+    font-family:var(--heading-font);
+
+    margin-bottom:.4rem;
+}
+
+.save-subtitle{
+
+    font-size:1rem;
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+
+    opacity:.7;
+
+    margin-bottom:24px;
+}
+
+.countdown-block{
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.calendar-block{
+
+    text-align:center;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+}
+
 .calendar-flip{
   display:flex;
   align-items:center;

@@ -43,31 +43,41 @@
       <div class="couple-tilt" id="couple-tilt">
         <img class="couple-illustration" id="couple-photo" src="assets/couple.jpg" alt="Illustrated caricature of Pragati and Arindam" width="700" height="1051" loading="eager">
       </div>
-      <p class="couple-caption">tap us for some love 💛</p>
     </div>
 
 
-    <p class="reveal r6 hero-date">11 – 12 December 2026</p>
     <p class="reveal r7 scroll-cue" aria-hidden="true">scroll down <span class="cue-arrow">↓</span></p>
   </section>
 
   <!-- ============ SAVE THE DATE — Calendar flip ============ -->
   <section id="save-date" class="section save-date-section">
-    <p class="eyebrow will-reveal">Mark your calendars</p>
-    <div class="calendar-flip will-reveal" aria-hidden="true">
-      <div class="flip-card">
-        <span class="flip-month">DEC</span>
-        <span class="flip-day">11</span>
-        <span class="flip-year">2026</span>
-      </div>
-      <span class="flip-joiner">&amp;</span>
-      <div class="flip-card">
-        <span class="flip-month">DEC</span>
-        <span class="flip-day">12</span>
-        <span class="flip-year">2026</span>
-      </div>
-    </div>
-
+    <div class="save-date-wrapper">
+        <div class="countdown-block will-reveal">
+            <p class="eyebrow">Until We Begin</p>
+            <div class="countdown" id="countdown-clock">
+              <div class="count-unit"><span class="count-num" id="cd-days">00</span><span class="count-label">days</span></div>
+              <div class="count-unit"><span class="count-num" id="cd-hours">00</span><span class="count-label">hrs</span></div>
+              <div class="count-unit"><span class="count-num" id="cd-mins">00</span><span class="count-label">min</span></div>
+              <div class="count-unit"><span class="count-num" id="cd-secs">00</span><span class="count-label">sec</span></div>
+            </div>
+        </div>
+        <div class="divider will-reveal"></div>
+        <div class="calendar-block will-reveal">
+          <p class="eyebrow will-reveal">Mark your calendars</p>
+          <div class="calendar-flip will-reveal" aria-hidden="true">
+            <div class="flip-card">
+              <span class="flip-month">DEC</span>
+              <span class="flip-day">11</span>
+              <span class="flip-year">2026</span>
+            </div>
+            <span class="flip-joiner">&amp;</span>
+            <div class="flip-card">
+              <span class="flip-month">DEC</span>
+              <span class="flip-day">12</span>
+              <span class="flip-year">2026</span>
+            </div>
+          </div>
+        </div>
     <div class="action-row will-reveal">
       <button class="btn btn-primary" id="add-calendar-btn" type="button">
         <span>+ Add to calendar</span>
@@ -77,65 +87,6 @@
       </button>
     </div>
     <p class="toast" id="toast" role="status" aria-live="polite"></p>
-  </section>
-
-  <!-- ============ COUNTDOWN ============ -->
-  <section id="countdown" class="section countdown-section">
-    <p class="eyebrow will-reveal">Until we begin</p>
-    <div class="countdown will-reveal" id="countdown-clock" aria-live="polite">
-      <div class="count-unit"><span class="count-num" id="cd-days">00</span><span class="count-label">days</span></div>
-      <div class="count-unit"><span class="count-num" id="cd-hours">00</span><span class="count-label">hrs</span></div>
-      <div class="count-unit"><span class="count-num" id="cd-mins">00</span><span class="count-label">min</span></div>
-      <div class="count-unit"><span class="count-num" id="cd-secs">00</span><span class="count-label">sec</span></div>
-    </div>
-  </section>
-
-  <!-- ============ EVENTS — compact swipeable cards ============ -->
-  <section id="events" class="section events-section">
-    <p class="eyebrow will-reveal">Three days, three moods</p>
-    <p class="events-hint will-reveal">swipe to see them all →</p>
-
-    <div class="card-carousel will-reveal" id="card-carousel">
-      <article class="event-card-mini" style="--accent:#E08A2C">
-        <span class="mini-eyebrow">Event One</span>
-        <h3 class="mini-title">The Carnival</h3>
-        <p class="mini-time">Day 1 · Noon</p>
-        <p class="mini-desc">Open-air Rajasthani colour, out in the greenery.</p>
-        <p class="mini-dress"><strong>Wear:</strong> Indian / Indo-western — oranges &amp; yellows</p>
-        <div class="mini-swatches">
-          <span style="background:#E08A2C"></span><span style="background:#F4A93C"></span><span style="background:#6E7A3E"></span>
-        </div>
-        <p class="mini-venue">Venue: to be revealed 🤫</p>
-      </article>
-
-      <article class="event-card-mini" style="--accent:#7A2E2E">
-        <span class="mini-eyebrow">Event Two</span>
-        <h3 class="mini-title">Sangeet &amp; Engagement</h3>
-        <p class="mini-time">Day 1 · Night</p>
-        <p class="mini-desc">Lights down, music up — a blingy Bollywood party night.</p>
-        <p class="mini-dress"><strong>Wear:</strong> Western / Indo-western — wine, black, midnight blue, aubergine</p>
-        <div class="mini-swatches">
-          <span style="background:#5C1F2E"></span><span style="background:#1B1B1D"></span><span style="background:#29344A"></span>
-        </div>
-        <p class="mini-venue">Venue: to be revealed 🤫</p>
-      </article>
-
-      <article class="event-card-mini" style="--accent:#8FA377">
-        <span class="mini-eyebrow">Event Three</span>
-        <h3 class="mini-title">The Wedding</h3>
-        <p class="mini-time">Day 2 · Noon</p>
-        <p class="mini-desc">A traditional celebration, set amidst open greenery.</p>
-        <p class="mini-dress"><strong>Wear:</strong> Traditional Indian — pista, ivory, cream, light pink</p>
-        <div class="mini-swatches">
-          <span style="background:#C7D6B8"></span><span style="background:#F3E9DA"></span><span style="background:#F2D6D6"></span>
-        </div>
-        <p class="mini-venue">Venue: to be revealed 🤫</p>
-      </article>
-    </div>
-
-    <div class="carousel-dots" id="carousel-dots" aria-hidden="true">
-      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
-    </div>
   </section>
 
   <!-- ============ CONTACTS ============ -->
