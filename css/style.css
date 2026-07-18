@@ -73,9 +73,9 @@ button{ font-family: inherit; }
 .ambient-petals{
   position: fixed;
   inset: 0;
-  overflow: hidden;
+  overflow: visible;
   pointer-events: none;
-  z-index: 0;
+  z-index: 9999;
 }
 .petal{
   position:absolute;
@@ -99,6 +99,7 @@ button{ font-family: inherit; }
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
   pointer-events: none;
+  z-index: 1;
 }
 @keyframes heart-rise{
   0%{ transform: translate(0,0) scale(.6); opacity: .95; }
