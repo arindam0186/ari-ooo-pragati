@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Pragati &amp; Arindam — Save the Date</title>
-<meta name="description" content="Pragati &amp; Arindam are getting married, 11–12 December 2026. Join the celebration.">
-
-<!-- Open Graph -->
+<meta name="description" content="Pragati &amp; Arindam are getting married, 11–12 December 2026.">
 <meta property="og:title" content="Pragati &amp; Arindam — Save the Date">
 <meta property="og:description" content="11–12 December 2026 · #AriOooPragati">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#FBF4E8">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,41 +19,70 @@
 </head>
 <body>
 
-<!-- Skip link for accessibility -->
-<a class="skip-link" href="#hero">Skip introduction</a>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<!-- ============ ENTRY GATE ============ -->
-<div id="gate" class="gate" role="button" tabindex="0" aria-label="Tap to open your invitation">
-  <div class="gate-inner">
-    <div class="monogram monogram--gate" aria-hidden="true">
-      <span class="mono-letter">P</span><span class="mono-amp">&amp;</span><span class="mono-letter">A</span>
-    </div>
-    <p class="gate-year">2 0 2 6</p>
-    <p class="gate-cta"><span class="gate-cta-text">tap to open</span></p>
-  </div>
-</div>
+<div class="ambient-petals" id="ambient-petals" aria-hidden="true"></div>
 
 <main id="main">
 
   <!-- ============ HERO ============ -->
   <section id="hero" class="section hero" aria-label="Announcement">
-    <div class="petal-field" data-petal-field></div>
-    <div class="hero-content">
-      <h1 class="hero-names">
-        <span class="reveal" style="--d:0">Pragati</span>
-        <span class="reveal hero-amp" style="--d:1">&amp;</span>
-        <span class="reveal" style="--d:2">Arindam</span>
-      </h1>
-      <p class="reveal hero-sub" style="--d:3">are getting married</p>
-      <p class="reveal hero-date" style="--d:4">11 – 12 December 2026</p>
-      <p class="reveal scroll-cue" style="--d:5" aria-hidden="true">scroll to explore <span class="cue-arrow">↓</span></p>
+    <div class="monogram" aria-hidden="true">
+      <span class="mono-letter">P</span><span class="mono-amp">&amp;</span><span class="mono-letter">A</span>
     </div>
+
+    <h1 class="hero-names">
+      <span class="reveal r1">Pragati</span>
+      <span class="reveal r2 hero-amp">&amp;</span>
+      <span class="reveal r3">Arindam</span>
+    </h1>
+    <p class="reveal r4 hero-sub">are getting married</p>
+
+    <!-- Illustrated couple -->
+    <div class="couple-wrap reveal r5" id="couple-wrap" role="button" tabindex="0" aria-label="Tap to celebrate">
+      <div class="couple-tilt" id="couple-tilt">
+        <img class="couple-illustration" id="couple-photo" src="assets/couple.jpg" alt="Illustrated caricature of Pragati and Arindam" width="700" height="1051" loading="eager">
+      </div>
+      <p class="couple-caption">tap us for some love 💛</p>
+    </div>
+
+
+    <p class="reveal r6 hero-date">11 – 12 December 2026</p>
+    <p class="reveal r7 scroll-cue" aria-hidden="true">scroll down <span class="cue-arrow">↓</span></p>
+  </section>
+
+  <!-- ============ SAVE THE DATE — Calendar flip ============ -->
+  <section id="save-date" class="section save-date-section">
+    <p class="eyebrow will-reveal">Mark your calendars</p>
+    <div class="calendar-flip will-reveal" aria-hidden="true">
+      <div class="flip-card">
+        <span class="flip-month">DEC</span>
+        <span class="flip-day">11</span>
+        <span class="flip-year">2026</span>
+      </div>
+      <span class="flip-joiner">&amp;</span>
+      <div class="flip-card">
+        <span class="flip-month">DEC</span>
+        <span class="flip-day">12</span>
+        <span class="flip-year">2026</span>
+      </div>
+    </div>
+
+    <div class="action-row will-reveal">
+      <button class="btn btn-primary" id="add-calendar-btn" type="button">
+        <span>+ Add to calendar</span>
+      </button>
+      <button class="btn btn-ghost" id="share-btn" type="button">
+        <span>Share the date</span>
+      </button>
+    </div>
+    <p class="toast" id="toast" role="status" aria-live="polite"></p>
   </section>
 
   <!-- ============ COUNTDOWN ============ -->
-  <section id="countdown" class="section countdown-section" aria-label="Countdown to the wedding">
-    <p class="eyebrow">Until we begin the celebrations</p>
-    <div class="countdown" id="countdown-clock" aria-live="polite">
+  <section id="countdown" class="section countdown-section">
+    <p class="eyebrow will-reveal">Until we begin</p>
+    <div class="countdown will-reveal" id="countdown-clock" aria-live="polite">
       <div class="count-unit"><span class="count-num" id="cd-days">00</span><span class="count-label">days</span></div>
       <div class="count-unit"><span class="count-num" id="cd-hours">00</span><span class="count-label">hrs</span></div>
       <div class="count-unit"><span class="count-num" id="cd-mins">00</span><span class="count-label">min</span></div>
@@ -62,87 +90,63 @@
     </div>
   </section>
 
-  <!-- ============ EVENTS ============ -->
-  <section class="events-intro" aria-hidden="false">
-    <p class="events-intro-line">Three days.</p>
-    <p class="events-intro-line">Three moods.</p>
-    <p class="events-intro-line">One big celebration.</p>
-    <p class="events-intro-sub">Dress the part — details below.</p>
-  </section>
+  <!-- ============ EVENTS — compact swipeable cards ============ -->
+  <section id="events" class="section events-section">
+    <p class="eyebrow will-reveal">Three days, three moods</p>
+    <p class="events-hint will-reveal">swipe to see them all →</p>
 
-  <section id="event-1" class="section event-section" data-theme="event1" aria-label="Event one: The Carnival">
-    <div class="event-card">
-      <p class="event-eyebrow">Event One</p>
-      <h2 class="event-title">The Carnival</h2>
-      <p class="event-time">Day 1 · Noon</p>
-      <p class="event-desc">An open-air, colour-drenched Rajasthani celebration.</p>
-      <div class="event-meta">
-        <p><span class="meta-label">Dress code</span> Indian / Indo-western</p>
-        <p><span class="meta-label">Palette</span> oranges &amp; yellows</p>
-        <p><span class="meta-label">Venue</span> to be revealed 🤫</p>
-      </div>
-      <div class="swatches" aria-hidden="true">
-        <span style="background:#E08A2C"></span>
-        <span style="background:#F4A93C"></span>
-        <span style="background:#D9863C"></span>
-        <span style="background:#FCEBC7"></span>
-        <span style="background:#6E7A3E"></span>
-      </div>
+    <div class="card-carousel will-reveal" id="card-carousel">
+      <article class="event-card-mini" style="--accent:#E08A2C">
+        <span class="mini-eyebrow">Event One</span>
+        <h3 class="mini-title">The Carnival</h3>
+        <p class="mini-time">Day 1 · Noon</p>
+        <p class="mini-desc">Open-air Rajasthani colour, out in the greenery.</p>
+        <p class="mini-dress"><strong>Wear:</strong> Indian / Indo-western — oranges &amp; yellows</p>
+        <div class="mini-swatches">
+          <span style="background:#E08A2C"></span><span style="background:#F4A93C"></span><span style="background:#6E7A3E"></span>
+        </div>
+        <p class="mini-venue">Venue: to be revealed 🤫</p>
+      </article>
+
+      <article class="event-card-mini" style="--accent:#7A2E2E">
+        <span class="mini-eyebrow">Event Two</span>
+        <h3 class="mini-title">Sangeet &amp; Engagement</h3>
+        <p class="mini-time">Day 1 · Night</p>
+        <p class="mini-desc">Lights down, music up — a blingy Bollywood party night.</p>
+        <p class="mini-dress"><strong>Wear:</strong> Western / Indo-western — wine, black, midnight blue, aubergine</p>
+        <div class="mini-swatches">
+          <span style="background:#5C1F2E"></span><span style="background:#1B1B1D"></span><span style="background:#29344A"></span>
+        </div>
+        <p class="mini-venue">Venue: to be revealed 🤫</p>
+      </article>
+
+      <article class="event-card-mini" style="--accent:#8FA377">
+        <span class="mini-eyebrow">Event Three</span>
+        <h3 class="mini-title">The Wedding</h3>
+        <p class="mini-time">Day 2 · Noon</p>
+        <p class="mini-desc">A traditional celebration, set amidst open greenery.</p>
+        <p class="mini-dress"><strong>Wear:</strong> Traditional Indian — pista, ivory, cream, light pink</p>
+        <div class="mini-swatches">
+          <span style="background:#C7D6B8"></span><span style="background:#F3E9DA"></span><span style="background:#F2D6D6"></span>
+        </div>
+        <p class="mini-venue">Venue: to be revealed 🤫</p>
+      </article>
     </div>
-  </section>
 
-  <section id="event-2" class="section event-section" data-theme="event2" aria-label="Event two: Sangeet and Engagement">
-    <div class="event-card">
-      <p class="event-eyebrow">Event Two</p>
-      <h2 class="event-title">Sangeet &amp; Engagement</h2>
-      <p class="event-time">Day 1 · Night</p>
-      <p class="event-desc">Lights down, music up — a blingy Bollywood party night.</p>
-      <div class="event-meta">
-        <p><span class="meta-label">Dress code</span> Western / Indo-western <em>(tuxedos &amp; suits, gowns)</em></p>
-        <p><span class="meta-label">Palette</span> wine, black, midnight blue, dark green, aubergine, maroon</p>
-        <p><span class="meta-label">Venue</span> to be revealed 🤫</p>
-      </div>
-      <div class="swatches" aria-hidden="true">
-        <span style="background:#5C1F2E"></span>
-        <span style="background:#1B1B1D"></span>
-        <span style="background:#29344A"></span>
-        <span style="background:#2E3B2E"></span>
-        <span style="background:#4B2E45"></span>
-        <span style="background:#7A2E2E"></span>
-      </div>
-    </div>
-  </section>
-
-  <section id="event-3" class="section event-section" data-theme="event3" aria-label="Event three: The Wedding">
-    <div class="event-card">
-      <p class="event-eyebrow">Event Three</p>
-      <h2 class="event-title">The Wedding</h2>
-      <p class="event-time">Day 2 · Noon</p>
-      <p class="event-desc">A traditional celebration, set amidst open greenery.</p>
-      <div class="event-meta">
-        <p><span class="meta-label">Dress code</span> Traditional Indian</p>
-        <p><span class="meta-label">Palette</span> pastels — pista, ivory, cream, light pink</p>
-        <p><span class="meta-label">Venue</span> to be revealed 🤫</p>
-      </div>
-      <div class="swatches" aria-hidden="true">
-        <span style="background:#C7D6B8"></span>
-        <span style="background:#FBF4E8"></span>
-        <span style="background:#F3E9DA"></span>
-        <span style="background:#F2D6D6"></span>
-        <span style="background:#E9DFC9"></span>
-      </div>
+    <div class="carousel-dots" id="carousel-dots" aria-hidden="true">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
     </div>
   </section>
 
   <!-- ============ CONTACTS ============ -->
-  <section id="contacts" class="section contacts-section" data-theme="default" aria-label="Contact persons">
-    <p class="eyebrow">Questions? Reach out with love.</p>
+  <section id="contacts" class="section contacts-section">
+    <p class="eyebrow will-reveal">Questions? Reach out with love</p>
     <div class="contact-cards">
-      <a class="contact-card" href="tel:+918178255571">
+      <a class="contact-card will-reveal" href="tel:+918178255571">
         <span class="contact-name">Pragati Agarwal</span>
         <span class="contact-phone">📞 81782 55571</span>
       </a>
-      <a class="contact-card" href="tel:+919452258935">
+      <a class="contact-card will-reveal" href="tel:+919452258935">
         <span class="contact-name">Arindam Goel</span>
         <span class="contact-phone">📞 94522 58935</span>
       </a>
@@ -150,16 +154,13 @@
   </section>
 
   <!-- ============ CLOSING ============ -->
-  <section id="closing" class="section closing-section" data-theme="default" aria-label="Closing">
-    <div class="petal-field" data-petal-field></div>
+  <section id="closing" class="section closing-section">
     <div class="monogram monogram--closing" id="closing-monogram" role="button" tabindex="0" aria-label="Tap for a surprise">
       <span class="mono-letter">P</span><span class="mono-amp">&amp;</span><span class="mono-letter">A</span>
     </div>
-    <p class="closing-line">Three days. Three moods.</p>
-    <p class="closing-line">One beginning.</p>
-    <p class="closing-sub">We can't wait to celebrate with you.</p>
-    <p class="closing-hashtag">#AriOooPragati</p>
-    <p class="closing-sign">— Pragati &amp; Arindam</p>
+    <p class="closing-line will-reveal">See you in December,</p>
+    <p class="closing-line will-reveal">with all our love.</p>
+    <p class="closing-hashtag will-reveal">#AriOooPragati</p>
   </section>
 
 </main>

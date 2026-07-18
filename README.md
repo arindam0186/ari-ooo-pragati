@@ -1,53 +1,45 @@
-# Pragati & Arindam — Save the Date
+# Pragati & Arindam — Save the Date (v2)
 
-A single-page, mobile-first microsite. Pure static HTML/CSS/JS — no build step, no dependencies to install.
+Pure static HTML/CSS/JS. No build step, no dependencies to install.
 
 ## File structure
 ```
 index.html
 css/style.css
 js/main.js
+assets/couple.jpg   ← your illustration
 ```
 
 ## Preview locally
-Just open `index.html` in a browser, or run a tiny local server (recommended, some browsers restrict local file behavior):
 ```
 cd wedding-site
 python3 -m http.server 8000
 ```
-Then visit `http://localhost:8000`.
+Visit http://localhost:8000
 
 ## Deploy on GitHub Pages (free)
+1. Create a public GitHub repo (e.g. `save-the-date`).
+2. Push `index.html`, `css/`, `js/`, `assets/` to the repo root.
+3. Repo → Settings → Pages → Source: Deploy from a branch → main / (root) → Save.
+4. Live at `https://<username>.github.io/save-the-date/` within a minute.
+5. Generate a QR code pointing to that URL for the physical card.
 
-1. Create a new **public** GitHub repository (e.g. `save-the-date`).
-2. Push these three items (`index.html`, `css/`, `js/`) to the root of that repo:
-   ```
-   git init
-   git add .
-   git commit -m "Save the date site"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/save-the-date.git
-   git push -u origin main
-   ```
-3. In the repo on GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: main / (root)** → Save.
-4. After a minute, your site is live at:
-   `https://<your-username>.github.io/save-the-date/`
-5. Generate a QR code pointing to that URL (any free QR generator, e.g. qr-code-generator.com) for the physical card.
+## What's in v2
+- No tap-gate — auto-playing entrance, works reliably across mobile browsers and in-app browsers (WhatsApp/Instagram) on iOS and Android.
+- One consistent ivory/gold/marigold palette throughout (no per-event recoloring).
+- Flip-calendar date reveal + live countdown as the centerpiece.
+- Your actual illustration is now live in the hero (assets/couple.jpg, resized/compressed from ~2.1MB to ~92KB for fast mobile loading), with a soft edge-fade so it blends into the page, a gentle idle sway, tap-for-hearts, and tilt parallax (device tilt on mobile, mouse-move on desktop).
+- Real "Add to Calendar" button — downloads a working .ics file (opens Calendar app on iPhone and Android).
+- Native "Share the date" button (Share sheet on supported phones, copy-link fallback).
+- Events as a compact swipeable card carousel.
+- Continuous ambient petals throughout the page.
+- Safer viewport-height handling for consistent full-height sections across iOS Safari, Chrome, Edge, and older Android WebViews.
 
-## Updating later
-Any edit to `index.html`, `css/style.css`, or `js/main.js`, followed by a `git push`, auto-updates the live site within ~a minute — no rebuild needed.
+## Swapping the illustration later
+Replace `assets/couple.jpg` with a new file of the same name (or update the `src` in `index.html`, `#couple-photo`). Keep it under ~200KB for fast mobile load — resize to ~700px wide and export as JPEG quality ~80 if needed.
 
-## What's built
-- Tap-to-open entry gate with monogram
-- Ink-bleed animated hero reveal (names + date)
-- Live countdown to **11 Dec 2026, 00:00 IST**
-- Three event sections, each with its own colour mood that transitions in as you scroll (bright Carnival → dark glam Sangeet → soft pastel Wedding)
-- Contact cards with one-tap calling on mobile
-- Closing section with a hidden petal-burst easter egg (tap the monogram 3×)
-- Full `prefers-reduced-motion` support, keyboard accessibility, and mobile-first responsive layout
-
-## Adding things later (v2)
-- Photos: drop images into an `assets/` folder and reference them in `index.html`
-- RSVP: add a Formspree or Google Form embed as a new section
-- Venue reveal: update the "to be revealed 🤫" lines and optionally add a Google Maps embed
-- Custom domain: buy a domain and add a `CNAME` file + configure it under Settings → Pages
+## Adding things later
+- More photos: extend the `assets/` folder.
+- RSVP: add a Formspree or Google Form embed as a new section.
+- Venue reveal: update "to be revealed 🤫" lines, optionally add a Google Maps embed.
+- Custom domain: buy a domain, add a `CNAME` file, configure under Settings → Pages.

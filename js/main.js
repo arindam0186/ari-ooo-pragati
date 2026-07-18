@@ -4,38 +4,20 @@
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
-     Entry Gate
+     Robust viewport height fix (older iOS/Android address-bar quirks)
      ============================================================ */
-  var gate = document.getElementById('gate');
-  var body = document.body;
-  body.classList.add('locked');
-
-  function openGate() {
-    if (gate.classList.contains('opened')) return;
-    gate.classList.add('opened');
-    body.classList.add('opened');
-    body.classList.remove('locked');
-    gate.setAttribute('aria-hidden', 'true');
+  function setVH() {
+    var vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh100', (vh * 100) + 'px');
   }
-
-  gate.addEventListener('click', openGate);
-  gate.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openGate();
-    }
-  });
-
-  // Auto-open if reduced motion or after long idle (keeps it accessible / avoids trapping)
-  if (prefersReducedMotion) {
-    openGate();
-  }
+  setVH();
+  window.addEventListener('resize', setVH);
+  window.addEventListener('orientationchange', setVH);
 
   /* ============================================================
      Countdown — targets midnight IST, 11 Dec 2026
      ============================================================ */
   var target = new Date('2026-12-11T00:00:00+05:30').getTime();
-
   var elDays = document.getElementById('cd-days');
   var elHours = document.getElementById('cd-hours');
   var elMins = document.getElementById('cd-mins');
@@ -44,57 +26,23 @@
   function pad(n) { return String(n).padStart(2, '0'); }
 
   function tickCountdown() {
-    var now = Date.now();
-    var diff = target - now;
-
+    var diff = target - Date.now();
     if (diff <= 0) {
-      elDays.textContent = '00';
-      elHours.textContent = '00';
-      elMins.textContent = '00';
-      elSecs.textContent = '00';
+      elDays.textContent = elHours.textContent = elMins.textContent = elSecs.textContent = '00';
       return;
     }
-
-    var days = Math.floor(diff / 86400000);
-    var hours = Math.floor((diff % 86400000) / 3600000);
-    var mins = Math.floor((diff % 3600000) / 60000);
-    var secs = Math.floor((diff % 60000) / 1000);
-
-    elDays.textContent = pad(days);
-    elHours.textContent = pad(hours);
-    elMins.textContent = pad(mins);
-    elSecs.textContent = pad(secs);
+    elDays.textContent = pad(Math.floor(diff / 86400000));
+    elHours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+    elMins.textContent = pad(Math.floor((diff % 3600000) / 60000));
+    elSecs.textContent = pad(Math.floor((diff % 60000) / 1000));
   }
-
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
   /* ============================================================
-     Scroll-triggered theme switching for event sections
+     Scroll reveal
      ============================================================ */
-  var themedSections = document.querySelectorAll('[data-theme]');
-
-  if ('IntersectionObserver' in window) {
-    var themeObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var theme = entry.target.getAttribute('data-theme');
-          body.setAttribute('data-active-theme', theme);
-        }
-      });
-    }, { threshold: 0.55 });
-
-    themedSections.forEach(function (sec) { themeObserver.observe(sec); });
-  }
-
-  /* ============================================================
-     Generic reveal-on-scroll for elements (events-intro, cards)
-     ============================================================ */
-  var revealTargets = document.querySelectorAll(
-    '.events-intro-line, .events-intro-sub, .event-card, .contact-card, .closing-line, .closing-sub, .closing-hashtag, .closing-sign'
-  );
-  revealTargets.forEach(function (el) { el.classList.add('will-reveal'); });
-
+  var revealTargets = document.querySelectorAll('.will-reveal');
   if ('IntersectionObserver' in window) {
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -103,75 +51,189 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.2 });
-
+    }, { threshold: 0.18 });
     revealTargets.forEach(function (el) { revealObserver.observe(el); });
   } else {
     revealTargets.forEach(function (el) { el.classList.add('in-view'); });
   }
 
   /* ============================================================
-     Petals — generated drifting elements in hero + closing
+     Ambient petals — continuous, behind everything
      ============================================================ */
-  function spawnPetals(container, count) {
-    if (prefersReducedMotion || !container) return;
+  var ambientField = document.getElementById('ambient-petals');
+  function spawnAmbientPetals(count) {
+    if (prefersReducedMotion || !ambientField) return;
     for (var i = 0; i < count; i++) {
       var p = document.createElement('span');
       p.className = 'petal';
-      var left = Math.random() * 100;
-      var duration = 9 + Math.random() * 8;
-      var delay = Math.random() * 10;
-      var dx = (Math.random() * 80 - 40) + 'px';
-      var scale = 0.6 + Math.random() * 0.8;
-      var hueShift = Math.random() > 0.5 ? 'hsl(30, 70%, 55%)' : 'hsl(20, 65%, 60%)';
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.animationDuration = (11 + Math.random() * 10) + 's';
+      p.style.animationDelay = (Math.random() * 14) + 's';
+      p.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+      p.style.transform = 'scale(' + (0.6 + Math.random() * 0.7) + ')';
+      p.style.background = Math.random() > 0.5 ? '#E08A2C' : '#C7A94F';
+      ambientField.appendChild(p);
+    }
+  }
+  spawnAmbientPetals(16);
 
-      p.style.left = left + '%';
-      p.style.animationDuration = duration + 's';
-      p.style.animationDelay = delay + 's';
-      p.style.setProperty('--dx', dx);
-      p.style.transform = 'scale(' + scale + ')';
-      p.style.background = hueShift;
-
-      container.appendChild(p);
+  function spawnHearts(x, y, count) {
+    if (prefersReducedMotion || !ambientField) return;
+    for (var i = 0; i < count; i++) {
+      var h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = '💛';
+      h.style.left = x + 'px';
+      h.style.top = y + 'px';
+      h.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
+      h.style.animationDuration = (1 + Math.random() * .6) + 's';
+      ambientField.appendChild(h);
+      (function (el) {
+        setTimeout(function () { el.remove(); }, 1800);
+      })(h);
     }
   }
 
-  document.querySelectorAll('[data-petal-field]').forEach(function (field) {
-    spawnPetals(field, 14);
+  /* ============================================================
+     Couple illustration — tap for hearts + gentle tilt parallax
+     ============================================================ */
+  var coupleWrap = document.getElementById('couple-wrap');
+  var coupleTilt = document.getElementById('couple-tilt');
+  var couplePhoto = document.getElementById('couple-photo');
+
+  function tapCouple(e) {
+    coupleWrap.classList.add('tapped');
+    setTimeout(function () { coupleWrap.classList.remove('tapped'); }, 220);
+    var rect = coupleWrap.getBoundingClientRect();
+    spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
+  }
+  coupleWrap.addEventListener('click', tapCouple);
+  coupleWrap.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tapCouple(e); }
+  });
+
+  // Subtle parallax: device orientation on mobile, mouse move on desktop
+  if (!prefersReducedMotion) {
+    if (window.DeviceOrientationEvent && /Mobi|Android/i.test(navigator.userAgent)) {
+      window.addEventListener('deviceorientation', function (e) {
+        if (e.gamma == null) return;
+        var tilt = Math.max(-8, Math.min(8, e.gamma / 4));
+        coupleTilt.style.transform = 'rotate(' + tilt + 'deg)';
+      });
+    } else {
+      document.addEventListener('mousemove', function (e) {
+        var relX = (e.clientX / window.innerWidth - 0.5) * 4;
+        coupleTilt.style.transform = 'rotate(' + relX + 'deg)';
+      });
+    }
+  }
+
+  /* ============================================================
+     Add to Calendar — generates a real .ics file
+     ============================================================ */
+  var addCalBtn = document.getElementById('add-calendar-btn');
+  var toast = document.getElementById('toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function () { toast.classList.remove('show'); }, 2600);
+  }
+
+  function buildICS() {
+    var ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Pragati and Arindam//Save the Date//EN',
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:pragati-arindam-wedding-2026@savethedate',
+      'DTSTAMP:20260101T000000Z',
+      'DTSTART;VALUE=DATE:20261211',
+      'DTEND;VALUE=DATE:20261213',
+      'SUMMARY:Pragati and Arindam\'s Wedding Celebrations',
+      'DESCRIPTION:Three days of celebration — details to follow. #AriOooPragati',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    return ics;
+  }
+
+  addCalBtn.addEventListener('click', function () {
+    try {
+      var blob = new Blob([buildICS()], { type: 'text/calendar;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'pragati-arindam-wedding.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      showToast('Added — check your calendar app 💛');
+    } catch (err) {
+      showToast('Could not create the file — please try again');
+    }
   });
 
   /* ============================================================
-     Closing monogram easter egg — tap 3x for a petal burst
+     Share the date
+     ============================================================ */
+  var shareBtn = document.getElementById('share-btn');
+  shareBtn.addEventListener('click', function () {
+    var shareData = {
+      title: 'Pragati & Arindam — Save the Date',
+      text: 'Pragati & Arindam are getting married, 11–12 December 2026! #AriOooPragati',
+      url: window.location.href
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch(function () {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareData.url).then(function () {
+        showToast('Link copied to clipboard!');
+      }).catch(function () {
+        showToast(shareData.url);
+      });
+    } else {
+      showToast(shareData.url);
+    }
+  });
+
+  /* ============================================================
+     Event card carousel — dot sync
+     ============================================================ */
+  var carousel = document.getElementById('card-carousel');
+  var dots = document.querySelectorAll('#carousel-dots .dot');
+
+  if (carousel && dots.length) {
+    carousel.addEventListener('scroll', function () {
+      var index = Math.round(carousel.scrollLeft / carousel.clientWidth);
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === index); });
+    }, { passive: true });
+  }
+
+  /* ============================================================
+     Closing monogram easter egg — tap 3x for a burst
      ============================================================ */
   var closingMono = document.getElementById('closing-monogram');
   var tapCount = 0;
   var tapTimer = null;
 
-  function petalBurst() {
-    if (prefersReducedMotion) return;
-    var closingSection = document.getElementById('closing');
-    var burstField = closingSection.querySelector('[data-petal-field]');
-    spawnPetals(burstField, 24);
-    closingMono.classList.add('zapped');
-    setTimeout(function () { closingMono.classList.remove('zapped'); }, 500);
-  }
-
-  function handleMonoTap() {
+  function handleMonoTap(e) {
     tapCount++;
     clearTimeout(tapTimer);
     tapTimer = setTimeout(function () { tapCount = 0; }, 1200);
     if (tapCount >= 3) {
       tapCount = 0;
-      petalBurst();
+      closingMono.classList.add('zapped');
+      setTimeout(function () { closingMono.classList.remove('zapped'); }, 500);
+      var rect = closingMono.getBoundingClientRect();
+      spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 14);
     }
   }
-
   closingMono.addEventListener('click', handleMonoTap);
   closingMono.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleMonoTap();
-    }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMonoTap(e); }
   });
 
 })();
