@@ -135,9 +135,13 @@
   var coupleWrap = document.getElementById('couple-wrap');
   bindTapHearts(coupleWrap, null);
   if (coupleWrap) {
-    coupleWrap.addEventListener('click', function () {
+    function bounceCouple() {
       coupleWrap.classList.add('tapped');
-      setTimeout(function () { coupleWrap.classList.remove('tapped'); }, 220);
+      setTimeout(function () { coupleWrap.classList.remove('tapped'); }, 1200);
+    }
+    coupleWrap.addEventListener('click', bounceCouple);
+    coupleWrap.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { bounceCouple(); }
     });
   }
 

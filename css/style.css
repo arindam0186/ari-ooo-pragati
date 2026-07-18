@@ -289,6 +289,27 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
   flex-direction:column;
   align-items:center;
   gap: .5rem;
+  position: relative;
+}
+.couple-wrap::before, .couple-wrap::after{
+  content:'';
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: 210px;
+  height: 210px;
+  transform: translate(-50%,-50%) scale(.6);
+  border-radius: 50%;
+  border: 1px solid rgba(176,141,43,.4);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.couple-wrap.tapped::before{ animation: halo-ripple 1.15s ease-out; }
+.couple-wrap.tapped::after{ animation: halo-ripple 1.15s ease-out .2s; }
+@keyframes halo-ripple{
+  0%{ opacity: .7; transform: translate(-50%,-50%) scale(.62); }
+  100%{ opacity: 0; transform: translate(-50%,-50%) scale(1.28); }
 }
 .couple-tilt{
   transform-origin: 50% 85%;
@@ -315,7 +336,14 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
   color: var(--gold);
   opacity: .75;
 }
-.couple-wrap.tapped .couple-illustration{ transform: scale(1.06); }
+.couple-wrap.tapped .couple-illustration{
+  animation: loving-pulse 1.15s cubic-bezier(.33,0,.2,1);
+}
+@keyframes loving-pulse{
+  0%{ transform: scale(1); filter: drop-shadow(0 14px 22px rgba(58,46,38,.18)); }
+  45%{ transform: scale(1.035); filter: drop-shadow(0 20px 30px rgba(176,141,43,.3)); }
+  100%{ transform: scale(1); filter: drop-shadow(0 14px 22px rgba(58,46,38,.18)); }
+}
 
 /* ============================================================
    Save the date — flip calendar
