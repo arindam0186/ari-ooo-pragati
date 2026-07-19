@@ -355,7 +355,7 @@
     setTimeout(function () { toast.classList.remove('show'); }, 2600);
   }
 
-  function buildICS() {
+function buildICS() {
     var ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
@@ -365,9 +365,10 @@
       'UID:pragati-arindam-wedding-2026@savethedate',
       'DTSTAMP:20260101T000000Z',
       'DTSTART;VALUE=DATE:20261211',
-      'DTEND;VALUE=DATE:20261213',
+      'DTEND;VALUE=DATE:20261212',
       'SUMMARY:Pragati and Arindam\'s Wedding Celebrations',
-      'DESCRIPTION:Three days of celebration — details to follow. #AriOooPragati',
+      'LOCATION:Jim Corbett\\, Uttarakhand\\, India',
+      'DESCRIPTION:Two days of celebration — details to follow. #AriOooPragati',
       'END:VEVENT',
       'END:VCALENDAR'
     ].join('\r\n');

@@ -681,6 +681,19 @@ main > .section, .save-date-section, .closing-section{
 }
 .venue-teaser-wrapper .coming-soon-badge{ margin-top: .3rem; }
 .teaser-divider{ margin: 1.1rem auto .3rem; }
+.details-note{
+  margin-top: .5rem;
+  display: inline-block;
+  max-width: 260px;
+  padding: .6rem 1.1rem;
+  border-radius: 14px;
+  border: 1px dashed var(--gold-soft);
+  font-size: .78rem;
+  letter-spacing: .02em;
+  line-height: 1.45;
+  color: var(--gold);
+  opacity: .9;
+}
 
 /* ============================================================
    Dress code teaser
