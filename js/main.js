@@ -5,6 +5,50 @@
   // prefers-reduced-motion — see the note in css/style.css.
 
   /* ============================================================
+     Name order — two shareable links, one repo, no new page.
+     Default link (no param) shows "Pragati & Arindam" everywhere.
+     Add ?order=arindam to the URL to flip it to "Arindam & Pragati"
+     — e.g. give one side of the family a link with ?order=arindam
+     and the other side the plain link. The Share button reuses
+     window.location.href, so sharing a flipped link keeps it flipped.
+     Note: this only affects what's rendered on the page — social
+     apps that pre-render link previews (WhatsApp/iMessage cards)
+     read the raw, un-flipped HTML, so preview cards will still
+     show the default order regardless of the link.
+     ============================================================ */
+  var NAME_A = 'Pragati';
+  var NAME_B = 'Arindam';
+  var flipOrder = false;
+  try {
+    var orderParam = new URLSearchParams(window.location.search).get('order');
+    flipOrder = !!orderParam && orderParam.toLowerCase() === 'arindam';
+  } catch (e) {}
+
+  if (flipOrder) {
+    var tmpName = NAME_A;
+    NAME_A = NAME_B;
+    NAME_B = tmpName;
+
+    var heroNameA = document.getElementById('hero-name-a');
+    var heroNameB = document.getElementById('hero-name-b');
+    if (heroNameA && heroNameB) {
+      heroNameA.textContent = NAME_A;
+      heroNameB.textContent = NAME_B;
+    }
+
+    document.title = NAME_A + ' & ' + NAME_B + ' — Save the Date';
+
+    var ogTitleTag = document.querySelector('meta[property="og:title"]');
+    if (ogTitleTag) ogTitleTag.setAttribute('content', NAME_A + ' & ' + NAME_B + ' — Save the Date');
+
+    var metaDescTag = document.querySelector('meta[name="description"]');
+    if (metaDescTag) metaDescTag.setAttribute('content', NAME_A + ' & ' + NAME_B + ' are getting married, 11–12 December 2026.');
+
+    var couplePhotoEl = document.getElementById('couple-photo');
+    if (couplePhotoEl) couplePhotoEl.setAttribute('alt', 'Illustrated caricature of ' + NAME_A + ' and ' + NAME_B);
+  }
+
+  /* ============================================================
      "Save the Date" — letter-by-letter ink reveal
      ============================================================ */
   var stdWord = document.getElementById('std-word');
@@ -355,20 +399,20 @@
     setTimeout(function () { toast.classList.remove('show'); }, 2600);
   }
 
-function buildICS() {
+  function buildICS() {
     var ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Pragati and Arindam//Save the Date//EN',
+      'PRODID:-//' + NAME_A + ' and ' + NAME_B + '//Save the Date//EN',
       'CALSCALE:GREGORIAN',
       'BEGIN:VEVENT',
       'UID:pragati-arindam-wedding-2026@savethedate',
       'DTSTAMP:20260101T000000Z',
       'DTSTART;VALUE=DATE:20261211',
-      'DTEND;VALUE=DATE:20261212',
-      'SUMMARY:Pragati and Arindam\'s Wedding Celebrations',
+      'DTEND;VALUE=DATE:20261213',
+      'SUMMARY:' + NAME_A + ' and ' + NAME_B + '\'s Wedding Celebrations',
       'LOCATION:Jim Corbett\\, Uttarakhand\\, India',
-      'DESCRIPTION:Two days of celebration — details to follow. #AriOooPragati',
+      'DESCRIPTION:Three days of celebration — details to follow. #AriOooPragati',
       'END:VEVENT',
       'END:VCALENDAR'
     ].join('\r\n');
@@ -398,8 +442,8 @@ function buildICS() {
   var shareBtn = document.getElementById('share-btn');
   shareBtn.addEventListener('click', function () {
     var shareData = {
-      title: 'Pragati & Arindam — Save the Date',
-      text: 'Pragati & Arindam are getting married, 11–12 December 2026! #AriOooPragati',
+      title: NAME_A + ' & ' + NAME_B + ' — Save the Date',
+      text: NAME_A + ' & ' + NAME_B + ' are getting married, 11–12 December 2026! #AriOooPragati',
       url: window.location.href
     };
     if (navigator.share) {
