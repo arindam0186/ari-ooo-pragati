@@ -70,17 +70,26 @@
         <div class="divider will-reveal"></div>
         <div class="calendar-block will-reveal">
           <p class="eyebrow will-reveal">Mark your calendars</p>
-          <div class="calendar-flip will-reveal" aria-hidden="true">
+          <p class="sr-only">Wedding dates: December 11 and 12, 2026.</p>
+          <div class="calendar-flip will-reveal">
             <div class="flip-card">
               <span class="flip-month">DEC</span>
-              <span class="flip-day">11</span>
+              <span class="scratch-wrap" data-scratch-card>
+                <span class="flip-day">11</span>
+                <canvas class="scratch-canvas" aria-hidden="true"></canvas>
+              </span>
               <span class="flip-year">2026</span>
+              <span class="scratch-hint">scratch to reveal</span>
             </div>
             <span class="flip-joiner">&amp;</span>
             <div class="flip-card">
               <span class="flip-month">DEC</span>
-              <span class="flip-day">12</span>
+              <span class="scratch-wrap" data-scratch-card>
+                <span class="flip-day">12</span>
+                <canvas class="scratch-canvas" aria-hidden="true"></canvas>
+              </span>
               <span class="flip-year">2026</span>
+              <span class="scratch-hint">scratch to reveal</span>
             </div>
           </div>
         </div>
@@ -96,38 +105,15 @@
     </div>
   </section>
 
-  <!-- ============ CONTACTS ============ -->
-  <section id="contacts" class="section contacts-section">
-    <p class="eyebrow will-reveal">Questions? Reach out with love</p>
-    <div class="contact-cards">
-      <a class="contact-card will-reveal" href="tel:+918178255571">
-        <span class="contact-role">Bride</span>
-        <span class="contact-name">Pragati Agarwal</span>
-        <span class="contact-divider" aria-hidden="true"></span>
-        <span class="contact-phone">
-          <svg class="phone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-          81782 55571
-        </span>
-      </a>
-      <a class="contact-card will-reveal" href="tel:+919452258935">
-        <span class="contact-role">Groom</span>
-        <span class="contact-name">Arindam Goel</span>
-        <span class="contact-divider" aria-hidden="true"></span>
-        <span class="contact-phone">
-          <svg class="phone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-          94522 58935
-        </span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ============ CLOSING ============ -->
+  <!-- ============ P.S. + CLOSING (merged) ============ -->
   <section id="closing" class="section closing-section">
-    <div class="monogram monogram--tap" id="closing-monogram" role="button" tabindex="0" aria-label="Tap for a surprise">
+    <p class="ps-mark will-reveal">P.S.</p>
+    <p class="ps-line will-reveal">All the little details — venue, timings, everything — will find their way to you soon.</p>
+    <p class="ps-sub will-reveal">Until then, just save the date 💛</p>
+
+    <div class="closing-divider will-reveal" aria-hidden="true"></div>
+
+    <div class="monogram monogram--tap will-reveal" id="closing-monogram" role="button" tabindex="0" aria-label="Tap for a surprise">
       <img src="assets/monogram.PNG" alt="P and A monogram" class="monogram-img">
     </div>
     <p class="closing-line will-reveal">See you in December,</p>

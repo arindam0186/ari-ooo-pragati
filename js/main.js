@@ -172,6 +172,129 @@
   }
 
   /* ============================================================
+     Scratch-to-reveal date cards
+     ============================================================ */
+  function initScratchCard(wrap) {
+    var canvas = wrap.querySelector('.scratch-canvas');
+    var hint = wrap.parentElement ? wrap.parentElement.querySelector('.scratch-hint') : null;
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var revealed = false;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var lastPt = null;
+    var scratching = false;
+
+    function paint() {
+      var rect = wrap.getBoundingClientRect();
+      var w = Math.max(1, Math.round(rect.width));
+      var h = Math.max(1, Math.round(rect.height));
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#C7A94F');
+      grad.addColorStop(1, '#9C7A22');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.fillStyle = 'rgba(255,255,255,.9)';
+      ctx.font = '600 ' + Math.round(h * 0.4) + 'px "EB Garamond", serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('?', w / 2, h / 2 + 1);
+    }
+    paint();
+
+    function pointFromEvent(e) {
+      var rect = canvas.getBoundingClientRect();
+      var src = (e.touches && e.touches[0]) || e;
+      return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+    }
+
+    function erase(pt) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 12, 0, Math.PI * 2);
+      ctx.fill();
+      if (lastPt) {
+        ctx.lineWidth = 24;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(lastPt.x, lastPt.y);
+        ctx.lineTo(pt.x, pt.y);
+        ctx.stroke();
+      }
+      lastPt = pt;
+    }
+
+    function checkCleared() {
+      var data;
+      try {
+        data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      } catch (err) { return; }
+      var step = Math.max(4, Math.round(4 * dpr));
+      var total = 0, cleared = 0;
+      for (var y = 0; y < canvas.height; y += step) {
+        for (var x = 0; x < canvas.width; x += step) {
+          var idx = (y * canvas.width + x) * 4 + 3;
+          total++;
+          if (data[idx] < 60) cleared++;
+        }
+      }
+      if (total && cleared / total > 0.5) reveal();
+    }
+
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
+      canvas.classList.add('revealed');
+      if (hint) hint.classList.add('done');
+      var rect = wrap.getBoundingClientRect();
+      spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
+    }
+
+    function start(e) {
+      if (revealed) return;
+      scratching = true;
+      lastPt = null;
+      erase(pointFromEvent(e));
+      checkCleared();
+      if (e.cancelable) e.preventDefault();
+    }
+    function move(e) {
+      if (!scratching || revealed) return;
+      erase(pointFromEvent(e));
+      checkCleared();
+      if (e.cancelable) e.preventDefault();
+    }
+    function stop() {
+      scratching = false;
+      lastPt = null;
+    }
+
+    if (window.PointerEvent) {
+      canvas.addEventListener('pointerdown', start);
+      canvas.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', stop);
+      window.addEventListener('pointercancel', stop);
+    } else {
+      canvas.addEventListener('mousedown', start);
+      canvas.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', stop);
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchmove', move, { passive: false });
+      window.addEventListener('touchend', stop);
+    }
+    window.addEventListener('resize', function () { if (!revealed) paint(); });
+  }
+
+  var scratchCards = document.querySelectorAll('[data-scratch-card]');
+  scratchCards.forEach(initScratchCard);
+
+  /* ============================================================
      Add to Calendar — generates a real .ics file
      ============================================================ */
   var addCalBtn = document.getElementById('add-calendar-btn');
