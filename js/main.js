@@ -1,7 +1,8 @@
 (function () {
   'use strict';
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Note: this site intentionally does not gate any animation on
+  // prefers-reduced-motion — see the note in css/style.css.
 
   /* ============================================================
      "Save the Date" — letter-by-letter ink reveal
@@ -78,7 +79,7 @@
      ============================================================ */
   var ambientField = document.getElementById('ambient-petals');
   function spawnAmbientPetals(count) {
-    if (prefersReducedMotion || !ambientField) return;
+    if (!ambientField) return;
     for (var i = 0; i < count; i++) {
       var p = document.createElement('span');
       p.className = 'petal';
@@ -94,7 +95,7 @@
   spawnAmbientPetals(16);
 
   function spawnHearts(x, y, count) {
-    if (prefersReducedMotion || !ambientField) return;
+    if (!ambientField) return;
     for (var i = 0; i < count; i++) {
       var h = document.createElement('span');
       h.className = 'heart';
@@ -145,14 +146,22 @@
     });
   }
 
-  // Subtle parallax: device orientation on mobile, mouse move on desktop
+  // Subtle parallax: touch-drag on touch devices (no permission needed),
+  // mouse move on desktop.
   var coupleTilt = document.getElementById('couple-tilt');
-  if (!prefersReducedMotion && coupleTilt) {
-    if (window.DeviceOrientationEvent && /Mobi|Android/i.test(navigator.userAgent)) {
-      window.addEventListener('deviceorientation', function (e) {
-        if (e.gamma == null) return;
-        var tilt = Math.max(-8, Math.min(8, e.gamma / 4));
-        coupleTilt.style.transform = 'rotate(' + tilt + 'deg)';
+  if (coupleTilt && coupleWrap) {
+    var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    if (isTouchDevice) {
+      coupleWrap.addEventListener('touchmove', function (e) {
+        if (!e.touches || !e.touches.length) return;
+        var touch = e.touches[0];
+        var rect = coupleWrap.getBoundingClientRect();
+        var relX = ((touch.clientX - rect.left) / rect.width - 0.5) * 10;
+        relX = Math.max(-9, Math.min(9, relX));
+        coupleTilt.style.transform = 'rotate(' + relX + 'deg)';
+      }, { passive: true });
+      coupleWrap.addEventListener('touchend', function () {
+        coupleTilt.style.transform = 'rotate(0deg)';
       });
     } else {
       document.addEventListener('mousemove', function (e) {

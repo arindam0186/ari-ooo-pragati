@@ -602,18 +602,10 @@ main > .section, .save-date-section, .events-section, .contacts-section, .closin
    ============================================================ */
 :focus-visible{ outline: 2px solid var(--gold); outline-offset: 3px; }
 
-@media (prefers-reduced-motion: reduce){
-  *, *::before, *::after{
-    animation-duration: .001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .001ms !important;
-    scroll-behavior: auto !important;
-  }
-  .reveal{ opacity:1; filter:none; transform:none; }
-  .will-reveal{ opacity:1; transform:none; }
-  .petal, .heart{ display:none; }
-  .figure{ animation: none; }
-}
+/* Reduced-motion is intentionally not special-cased here — every animation
+   on this page (petals, hearts, taps, idle sway, tilt) always plays, on
+   every device, regardless of system motion settings. This is a deliberate
+   choice for a small, personal invite site rather than a general product. */
 
 @media (max-width: 380px){
   .monogram{ width: 96px; height: 96px; }
