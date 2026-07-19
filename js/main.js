@@ -30,6 +30,9 @@
   setVH();
   window.addEventListener('resize', setVH);
   window.addEventListener('orientationchange', setVH);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', setVH);
+  }
 
   /* ============================================================
      Countdown — targets midnight IST, 11 Dec 2026
@@ -94,14 +97,22 @@
   }
   spawnAmbientPetals(16);
 
+  // A single SVG heart, reused (via currentColor) for every heart effect on the
+  // page — this renders identically across OSes, unlike the emoji glyph, whose
+  // size/baseline differs a lot between Android's and iOS's emoji fonts.
+  var HEART_SVG = '<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<path d="M16 28.3C9.3 23 1 16.7 1 9.5 1 4.8 4.7 1.1 9.3 1.1c2.7 0 5.2 1.3 6.7 3.5 1.5-2.2 4-3.5 6.7-3.5 4.6 0 8.3 3.7 8.3 8.4 0 7.2-8.3 13.5-15 18.8z" fill="currentColor"/>' +
+    '</svg>';
+
   function spawnHearts(x, y, count) {
     if (!ambientField) return;
     for (var i = 0; i < count; i++) {
       var h = document.createElement('span');
       h.className = 'heart';
-      h.textContent = '❤️';
+      h.innerHTML = HEART_SVG;
       h.style.left = x + 'px';
       h.style.top = y + 'px';
+      h.style.color = Math.random() > 0.5 ? '#7A2E2E' : '#E08A2C';
       h.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
       h.style.animationDuration = (1 + Math.random() * .6) + 's';
       ambientField.appendChild(h);
@@ -109,6 +120,19 @@
         setTimeout(function () { el.remove(); }, 1800);
       })(h);
     }
+  }
+
+  // A single larger heart that pops directly on top of an element — used on
+  // the couple photo so the "tap for love" gesture reads clearly against a
+  // busy photo, the way a double-tap-to-like does on photo apps.
+  function spawnBigHeart(el) {
+    if (!el) return;
+    var span = document.createElement('span');
+    span.className = 'big-heart';
+    span.style.color = '#B23B3B';
+    span.innerHTML = HEART_SVG;
+    el.appendChild(span);
+    setTimeout(function () { span.remove(); }, 1100);
   }
 
   /* ============================================================
@@ -138,6 +162,7 @@
   if (coupleWrap) {
     function bounceCouple() {
       coupleWrap.classList.add('tapped');
+      spawnBigHeart(coupleWrap);
       setTimeout(function () { coupleWrap.classList.remove('tapped'); }, 1200);
     }
     coupleWrap.addEventListener('click', bounceCouple);
@@ -195,12 +220,35 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       var grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#C7A94F');
+      grad.addColorStop(0, '#D8B85A');
       grad.addColorStop(1, '#9C7A22');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
 
-      ctx.fillStyle = 'rgba(255,255,255,.9)';
+      // Diagonal foil hatch — reads as a scratch-card texture at a glance,
+      // and renders identically everywhere since it's drawn, not an emoji/font glyph.
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, w, h);
+      ctx.clip();
+      ctx.strokeStyle = 'rgba(255,255,255,.16)';
+      ctx.lineWidth = Math.max(2, h * 0.09);
+      var gap = h * 0.4;
+      for (var x = -h; x < w + h; x += gap) {
+        ctx.beginPath();
+        ctx.moveTo(x, h);
+        ctx.lineTo(x + h, 0);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = 'rgba(255,255,255,.5)';
+      ctx.lineWidth = 1.4;
+      ctx.strokeRect(2, 2, w - 4, h - 4);
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = 'rgba(255,255,255,.95)';
       ctx.font = '600 ' + Math.round(h * 0.4) + 'px "EB Garamond", serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -217,10 +265,10 @@
     function erase(pt) {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 12, 0, Math.PI * 2);
+      ctx.arc(pt.x, pt.y, 15, 0, Math.PI * 2);
       ctx.fill();
       if (lastPt) {
-        ctx.lineWidth = 24;
+        ctx.lineWidth = 30;
         ctx.lineCap = 'round';
         ctx.beginPath();
         ctx.moveTo(lastPt.x, lastPt.y);
@@ -244,13 +292,14 @@
           if (data[idx] < 60) cleared++;
         }
       }
-      if (total && cleared / total > 0.5) reveal();
+      if (total && cleared / total > 0.42) reveal();
     }
 
     function reveal() {
       if (revealed) return;
       revealed = true;
       canvas.classList.add('revealed');
+      wrap.classList.add('done');
       if (hint) hint.classList.add('done');
       var rect = wrap.getBoundingClientRect();
       spawnHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
