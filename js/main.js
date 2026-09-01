@@ -49,6 +49,11 @@
 
     var couplePhotoEl = document.getElementById('couple-photo');
     if (couplePhotoEl) couplePhotoEl.setAttribute('alt', 'Illustrated caricature of ' + NAME_A + ' and ' + NAME_B);
+
+    // Carry the flip through to the style guide site too, so its own
+    // order-flip (js/theme.js there) picks it up on arrival.
+    var styleGuideLink = document.getElementById('style-guide-link');
+    if (styleGuideLink) styleGuideLink.setAttribute('href', styleGuideLink.href + '?order=arindam');
   }
 
   /* ============================================================

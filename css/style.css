@@ -747,6 +747,69 @@ main > .section, .save-date-section, .closing-section{
   opacity: .85;
 }
 
+/* ---- Wax seal — the tap-through into the style guide site ----
+   Echoes the wax-seal "break to reveal" language used throughout
+   the style guide itself, so the two sites read as one invitation. */
+.wax-link{
+  margin-top: 1.5rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .7rem;
+  text-decoration: none;
+  color: inherit;
+  transform: rotate(-3deg);
+  transition: transform .35s var(--ease);
+}
+.wax-link:hover, .wax-link:focus-visible{ transform: rotate(0deg) scale(1.04); }
+.wax-link:active .wax-link-seal{ transform: scale(.88); }
+
+.wax-link-seal{
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 32% 28%, #9c3f3f 0%, var(--wine) 55%, #5c2020 100%);
+  box-shadow:
+    inset 0 -3px 5px rgba(0,0,0,.35),
+    inset 0 2px 3px rgba(255,255,255,.18),
+    0 6px 14px rgba(58,46,38,.3);
+  transition: transform .3s var(--ease);
+}
+.wax-link-mono{
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: .92;
+}
+.wax-link-glow{
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(9px);
+  background: radial-gradient(circle, rgba(224,138,44,.7) 0%, rgba(199,169,79,.35) 45%, transparent 75%);
+  animation: wax-glow-pulse 2.4s ease-in-out infinite;
+}
+@keyframes wax-glow-pulse{
+  0%,100%{ opacity:.3; transform:scale(.9); }
+  50%{ opacity:.85; transform:scale(1.22); }
+}
+.wax-link-caption{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: .92rem;
+  line-height: 1.35;
+  letter-spacing: .01em;
+  opacity: .85;
+}
+.wax-link-caption em{ font-style: italic; color: var(--gold); opacity: .9; }
+
 /* ============================================================
    Contacts
    ============================================================ */
