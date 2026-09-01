@@ -13,8 +13,11 @@
      window.location.href, so sharing a flipped link keeps it flipped.
      Note: this only affects what's rendered on the page — social
      apps that pre-render link previews (WhatsApp/iMessage cards)
-     read the raw, un-flipped HTML, so preview cards will still
-     show the default order regardless of the link.
+     read raw HTML, not JS output, so the plain ?order=arindam link
+     still previews as "Pragati & Arindam". For a flipped preview
+     card too, share arindam.html instead — it's a static page with
+     swapped og:title/description that redirects into ?order=arindam
+     for real visitors.
      ============================================================ */
   var NAME_A = 'Pragati';
   var NAME_B = 'Arindam';
