@@ -419,8 +419,8 @@
       'DTSTART;VALUE=DATE:20261211',
       'DTEND;VALUE=DATE:20261213',
       'SUMMARY:' + NAME_A + ' and ' + NAME_B + '\'s Wedding Celebrations',
-      'LOCATION:Jim Corbett\\, Uttarakhand\\, India',
-      'DESCRIPTION:Three days of celebration — details to follow. #AriOooPragati',
+      'LOCATION:Excel Hotel and Resorts\\, Kotabagh\\, Uttarakhand\\, India',
+      'DESCRIPTION:Two days of celebration — your printed itinerary will be waiting at check-in. #AriOooPragati',
       'END:VEVENT',
       'END:VCALENDAR'
     ].join('\r\n');

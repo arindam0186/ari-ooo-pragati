@@ -696,6 +696,19 @@ main > .section, .save-date-section, .closing-section{
   max-width: 340px;
 }
 .venue-teaser-wrapper .coming-soon-badge{ margin-top: .3rem; }
+.venue-teaser-title{ line-height: 1.1; }
+.venue-amp{
+  font-family: var(--font-script);
+  font-size: .62em;
+  color: var(--gold);
+  display: inline-block;
+  margin: 0 .1em;
+}
+.venue-directions{
+  margin-top: .9rem;
+  text-decoration: none;
+  display: inline-block;
+}
 .teaser-divider{ margin: 1.1rem auto .3rem; }
 .details-note{
   margin-top: .5rem;
